@@ -1,7 +1,10 @@
 package com.bignerdranch.android.geoquiz;
 
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -39,6 +42,9 @@ public class QuizActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_quiz);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            addActionBar();
+        }
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
         if (savedInstanceState != null) {
@@ -68,6 +74,7 @@ public class QuizActivity extends Activity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mIsCheater = false;
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 updateQuestion();
             }
@@ -82,6 +89,12 @@ public class QuizActivity extends Activity {
                 startActivityForResult(cheatIntent, 0);
             }
         });
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void addActionBar() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setSubtitle("Bodies of Water");
     }
 
     @Override
