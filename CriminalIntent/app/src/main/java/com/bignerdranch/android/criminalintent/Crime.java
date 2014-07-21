@@ -45,4 +45,9 @@ public class Crime {
     public void setSolved(Boolean solved) {
         mSolved = solved;
     }
+
+    @Override
+    public String toString() {
+        return mTitle;
+    }
 }
